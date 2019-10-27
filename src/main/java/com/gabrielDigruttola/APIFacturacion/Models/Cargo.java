@@ -20,6 +20,9 @@ public class Cargo {
     @Column(name = "total", nullable = false)
     private double totalCargo;
 
+    @Column(name = "estado", nullable = false)
+    private int estado;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_evento", nullable = false)
     private Evento eventoCargo;
@@ -37,10 +40,11 @@ public class Cargo {
         this.facturaCargo = new Factura();
     }
 
-    public Cargo(long idCargo, Date fechaCargo, double totalCargo, Evento eventoCargo, Factura facturaCargo, List<CargoPago> cargoPagoList) {
+    public Cargo(long idCargo, Date fechaCargo, double totalCargo, int estado, Evento eventoCargo, Factura facturaCargo, List<CargoPago> cargoPagoList) {
         this.idCargo = idCargo;
         this.fechaCargo = fechaCargo;
         this.totalCargo = totalCargo;
+        this.estado = estado;
         this.eventoCargo = eventoCargo;
         this.facturaCargo = facturaCargo;
         this.cargoPagoList = cargoPagoList;
@@ -68,6 +72,14 @@ public class Cargo {
 
     public void setTotalCargo(double totalCargo) {
         this.totalCargo = totalCargo;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 
     public Evento getEventoCargo() {

@@ -10,7 +10,7 @@ public class Evento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_evento")
-    private long idEvento;
+    private int idEvento;
 
     @Column(name = "nombre", nullable = false)
     private String nombreEvento;
@@ -27,7 +27,7 @@ public class Evento {
         this.categoriaDeEvento = new CategoriaDeEvento();
     }
 
-    public Evento(long idEvento, String nombreEvento, CategoriaDeEvento categoriaDeEvento, List<Cargo> cargoEventoList) {
+    public Evento(int idEvento, String nombreEvento, CategoriaDeEvento categoriaDeEvento, List<Cargo> cargoEventoList) {
         this.idEvento = idEvento;
         this.nombreEvento = nombreEvento;
         this.categoriaDeEvento = categoriaDeEvento;
@@ -38,7 +38,7 @@ public class Evento {
         return idEvento;
     }
 
-    public void setIdEvento(long idEvento) {
+    public void setIdEvento(int idEvento) {
         this.idEvento = idEvento;
     }
 

@@ -8,12 +8,12 @@ public class Moneda {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_moneda")
-    private long idMoneda;
+    private int idMoneda;
 
     @Column(name = "valor", nullable = false)
     private double valorMoneda;
 
-    public Moneda(long idMoneda, double valorMoneda) {
+    public Moneda(int idMoneda, double valorMoneda) {
         this.idMoneda = idMoneda;
         this.valorMoneda = valorMoneda;
     }
@@ -22,7 +22,7 @@ public class Moneda {
         return idMoneda;
     }
 
-    public void setIdMoneda(long idMoneda) {
+    public void setIdMoneda(int idMoneda) {
         this.idMoneda = idMoneda;
     }
 
