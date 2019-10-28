@@ -25,12 +25,11 @@ public class CargosController {
     public ResponseEntity generarCargo(@RequestBody CargoMapper cargoMapper) {
         JSONObject json = new JSONObject();
 
-
         try {
             cargoService.procesarCargo(cargoMapper);
         } catch (Exception e) {
             json.put("mensaje", e.getMessage());
-            return new ResponseEntity<JSONObject>(json, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(json, HttpStatus.CONFLICT);
         }
 
         json.put("fecha", cargoMapper.getFecha());
@@ -40,14 +39,14 @@ public class CargosController {
         json.put("evento", cargoMapper.getTipoEvento());
         json.put("monedaConvertida", Enums.Moneda.ARS.getValue());
 
-        return new ResponseEntity<JSONObject>(json, HttpStatus.OK);
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getCargos", method = RequestMethod.GET)
     public ResponseEntity obtenerCargos(@RequestParam(name = "idUsuario") long idUsuario) {
         JSONObject json = new JSONObject();
         json.put("mensaje", "hola");
-        return new ResponseEntity<JSONObject>(json, HttpStatus.OK);
+        return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
 }

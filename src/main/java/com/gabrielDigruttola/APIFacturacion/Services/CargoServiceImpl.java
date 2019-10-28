@@ -28,11 +28,12 @@ public class CargoServiceImpl implements CargoService {
     private UsuarioService usuarioService;
 
     @Override
-    public double calcularTotal(double monto, Enums.Moneda moneda) {
-        Moneda monedaConversion = monedaService.getMonedaPorId(moneda.getValue());
-        double totalEnPesos = monto * monedaConversion.getValorMoneda();
-
-        return totalEnPesos;
+    public double calcularTotal(double monto, Enums.Moneda moneda) throws Exception {
+        Optional<Moneda> monedaConversion = monedaService.getMonedaPorId(moneda.getValue());
+        if (monedaConversion.isPresent())
+            return monto * monedaConversion.get().getValorMoneda();
+        else
+            throw new Exception("La moneda no existe.");
     }
 
     @Override
@@ -43,8 +44,8 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public void procesarCargo(CargoMapper cargoMapper) throws Exception {
         try {
-            Evento evento = eventoService.getEventoPorId(cargoMapper.getTipoEvento().getValue());
-            if (evento == null)
+            Optional<Evento> evento = eventoService.getEventoPorId(cargoMapper.getTipoEvento().getValue());
+            if (!evento.isPresent())
                 throw new Exception("El evento no existe.");
 
             Optional<Usuario> usuario = usuarioService.getUsuarioPorId(cargoMapper.getIdUsuario());

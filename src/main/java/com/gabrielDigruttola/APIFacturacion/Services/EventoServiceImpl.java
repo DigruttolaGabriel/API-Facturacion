@@ -5,6 +5,8 @@ import com.gabrielDigruttola.APIFacturacion.Repositories.EventoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class EventoServiceImpl implements EventoService {
 
@@ -17,7 +19,7 @@ public class EventoServiceImpl implements EventoService {
     }
 
     @Override
-    public Evento getEventoPorId(int idEvento) {
-        return eventoRepository.getOne(idEvento);
+    public Optional<Evento> getEventoPorId(int idEvento) {
+        return eventoRepository.findById(idEvento);
     }
 }

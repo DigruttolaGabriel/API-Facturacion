@@ -10,6 +10,9 @@ public class Moneda {
     @Column(name = "ID_moneda")
     private int idMoneda;
 
+    @Column(name = "nombre", nullable = false)
+    private String nombreMoneda;
+
     @Column(name = "valor", nullable = false)
     private double valorMoneda;
 
@@ -17,8 +20,9 @@ public class Moneda {
 
     }
 
-    public Moneda(int idMoneda, double valorMoneda) {
+    public Moneda(int idMoneda, String nombreMoneda, double valorMoneda) {
         this.idMoneda = idMoneda;
+        this.nombreMoneda = nombreMoneda;
         this.valorMoneda = valorMoneda;
     }
 
@@ -28,6 +32,14 @@ public class Moneda {
 
     public void setIdMoneda(int idMoneda) {
         this.idMoneda = idMoneda;
+    }
+
+    public String getNombreMoneda() {
+        return nombreMoneda;
+    }
+
+    public void setNombreMoneda(String nombreMoneda) {
+        this.nombreMoneda = nombreMoneda;
     }
 
     public double getValorMoneda() {

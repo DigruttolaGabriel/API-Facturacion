@@ -5,6 +5,8 @@ import com.gabrielDigruttola.APIFacturacion.Repositories.MonedaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class MonedaServiceImpl implements MonedaService {
 
@@ -12,7 +14,7 @@ public class MonedaServiceImpl implements MonedaService {
     private MonedaRepository monedaRepository;
 
     @Override
-    public Moneda getMonedaPorId(int idMoneda) {
-        return monedaRepository.getOne(idMoneda);
+    public Optional<Moneda> getMonedaPorId(int idMoneda) {
+        return monedaRepository.findById(idMoneda);
     }
 }

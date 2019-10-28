@@ -6,7 +6,7 @@ import com.gabrielDigruttola.APIFacturacion.Models.Cargo;
 
 public interface CargoService {
 
-    double calcularTotal(double monto, Moneda moneda);
+    double calcularTotal(double monto, Moneda moneda) throws Exception;
 
     void guardarCargo(Cargo cargo);
 
