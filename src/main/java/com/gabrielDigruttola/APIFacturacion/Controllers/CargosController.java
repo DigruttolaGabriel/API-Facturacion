@@ -47,21 +47,16 @@ public class CargosController {
     @RequestMapping(value = "/getCargos", method = RequestMethod.GET)
     public ResponseEntity obtenerCargos(@RequestParam(name = "idUsuario") long idUsuario) {
         JSONObject json = new JSONObject();
-        Cargo cargo;
         List<Cargo> cargos;
         double deuda;
         try {
-            //cargo = cargoService.getCargosAPagar(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getValue());
-            cargos = cargoService.getCargosAPagar(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getValue());
+            cargos = cargoService.getCargosAPagar(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getValue(), idUsuario);
             deuda = cargoService.getDeudaTotal(cargos);
         } catch (Exception e) {
             json.put("mensaje", e.getMessage());
             return new ResponseEntity<>(json, HttpStatus.CONFLICT);
         }
 
-        /*json.put("id", cargo.getIdCargo());
-        json.put("usuario", cargo.getFacturaCargo().getUsuario().getNombre());
-        json.put("monto", cargo.getTotalCargo());*/
         json.put("deuda", deuda);
         return new ResponseEntity<>(json, HttpStatus.OK);
     }

@@ -2,10 +2,10 @@ package com.gabrielDigruttola.APIFacturacion.Services;
 
 import com.gabrielDigruttola.APIFacturacion.Enums.Enums;
 import com.gabrielDigruttola.APIFacturacion.Mappers.CargoMapper;
+import com.gabrielDigruttola.APIFacturacion.Mappers.PagoMapper;
 import com.gabrielDigruttola.APIFacturacion.Models.*;
 import com.gabrielDigruttola.APIFacturacion.Repositories.CargoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +16,6 @@ public class CargoServiceImpl implements CargoService {
 
     @Autowired
     private CargoRepository cargoRepository;
-
-    @Autowired
-    private MonedaService monedaService;
 
     @Autowired
     private FacturaService facturaService;
@@ -32,14 +29,8 @@ public class CargoServiceImpl implements CargoService {
     @Autowired
     private CargoPagoService cargoPagoService;
 
-    @Override
-    public double calcularTotal(double monto, Enums.Moneda moneda) throws Exception {
-        Optional<Moneda> monedaConversion = monedaService.getMonedaPorId(moneda.getValue());
-        if (monedaConversion.isPresent())
-            return monto * monedaConversion.get().getValorMoneda();
-        else
-            throw new Exception("La moneda no existe.");
-    }
+    @Autowired
+    private CommonService commonService;
 
     @Override
     public void guardarCargo(Cargo cargo) {
@@ -58,7 +49,7 @@ public class CargoServiceImpl implements CargoService {
                 throw new Exception("El usuario no existe.");
 
             if (!cargoMapper.getMoneda().equals(Enums.Moneda.ARS))
-                cargoMapper.setMonto(calcularTotal(cargoMapper.getMonto(), cargoMapper.getMoneda()));
+                cargoMapper.setMonto(commonService.calcularConversionMoneda(cargoMapper.getMonto(), cargoMapper.getMoneda()));
 
             Factura factura = facturaService.getFacturaPorMesYAnio(cargoMapper.getFecha());
             if (factura == null)
@@ -86,7 +77,8 @@ public class CargoServiceImpl implements CargoService {
         return totalDeuda;
     }
 
-    private double getDeudaCargo(Cargo cargo) {
+    @Override
+    public double getDeudaCargo(Cargo cargo) {
         double deuda = cargo.getTotalCargo();
         for (CargoPago cargoPago : cargo.getCargoPagoList()) {
             deuda -= cargoPago.getPago().getMontoPago();
@@ -96,37 +88,8 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public void asociarPago(Pago pago) throws Exception {
-        //List<Cargo> cargos = cargoRepository.findByEstadoOrderByIdCargoAsc(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getValue());
-        List<Cargo> cargos = cargoRepository.findCargosPendientesPorUsuario(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getValue(), 1);
-        double totalPago = pago.getMontoPago();
-        double totalDeuda = getDeudaTotal(cargos);
-        if (totalPago <= totalDeuda && totalPago > 0) {
-            while (totalPago > 0) {
-                Cargo cargo = cargos.get(0);
-                double deudaCargo = getDeudaCargo(cargo);
-
-                CargoPago cargoPago = new CargoPago();
-                cargoPago.setCargo(cargo);
-                cargoPago.setPago(pago);
-                cargoPagoService.guardarCargoPago(cargoPago);
-
-                if (deudaCargo <= totalPago) {
-                    cargo.setEstado(Enums.EstadoCargo.PAGADO.getValue());
-                    guardarCargo(cargo);
-                    cargos.remove(cargo);
-                }
-                totalPago -= deudaCargo;
-            }
-        } else {
-            throw new Exception("El pago no puede superar la deuda del usuario.");
-        }
-    }
-
-    @Override
-    public List<Cargo> getCargosAPagar(int estado) {
-        List<Cargo> cargos = cargoRepository.findByEstadoOrderByIdCargoAsc(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getValue());
-
+    public List<Cargo> getCargosAPagar(int estado, long idUsuario) {
+        List<Cargo> cargos = cargoRepository.findCargosPendientesPorUsuario(estado, idUsuario);
         return cargos;
     }
 
