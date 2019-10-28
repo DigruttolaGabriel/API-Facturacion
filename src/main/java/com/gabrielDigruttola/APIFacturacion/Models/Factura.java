@@ -29,6 +29,11 @@ public class Factura {
         this.usuario = new Usuario();
     }
 
+    public Factura(Date fechaFactura, Usuario usuario) {
+        this.fechaFactura = fechaFactura;
+        this.usuario = usuario;
+    }
+
     public Factura(long idFactura, Date fechaFactura, Usuario usuario, List<Cargo> cargoFacturaList) {
         this.idFactura = idFactura;
         this.fechaFactura = fechaFactura;

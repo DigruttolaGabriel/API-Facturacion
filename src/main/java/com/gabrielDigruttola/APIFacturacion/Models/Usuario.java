@@ -33,6 +33,10 @@ public class Usuario {
         this.facturaUsuarioList = new ArrayList<>();
     }
 
+    public Usuario(long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
     public Usuario(long idUsuario, String nombre, String apellido, String email, Date fechaAlta, List<Factura> facturaUsuarioList) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;

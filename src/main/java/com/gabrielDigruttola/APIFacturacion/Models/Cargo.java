@@ -27,7 +27,7 @@ public class Cargo {
     @JoinColumn(name = "ID_evento", nullable = false)
     private Evento eventoCargo;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_factura", nullable = false)
     private Factura facturaCargo;
 

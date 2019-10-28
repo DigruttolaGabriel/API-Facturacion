@@ -13,6 +13,10 @@ public class Moneda {
     @Column(name = "valor", nullable = false)
     private double valorMoneda;
 
+    public Moneda() {
+
+    }
+
     public Moneda(int idMoneda, double valorMoneda) {
         this.idMoneda = idMoneda;
         this.valorMoneda = valorMoneda;
