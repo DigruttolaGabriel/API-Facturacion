@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/api/cargos")
 public class CargosController {
@@ -45,7 +47,22 @@ public class CargosController {
     @RequestMapping(value = "/getCargos", method = RequestMethod.GET)
     public ResponseEntity obtenerCargos(@RequestParam(name = "idUsuario") long idUsuario) {
         JSONObject json = new JSONObject();
-        json.put("mensaje", "hola");
+        Cargo cargo;
+        List<Cargo> cargos;
+        double deuda;
+        try {
+            //cargo = cargoService.getCargosAPagar(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getValue());
+            cargos = cargoService.getCargosAPagar(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getValue());
+            deuda = cargoService.getDeudaTotal(cargos);
+        } catch (Exception e) {
+            json.put("mensaje", e.getMessage());
+            return new ResponseEntity<>(json, HttpStatus.CONFLICT);
+        }
+
+        /*json.put("id", cargo.getIdCargo());
+        json.put("usuario", cargo.getFacturaCargo().getUsuario().getNombre());
+        json.put("monto", cargo.getTotalCargo());*/
+        json.put("deuda", deuda);
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
 

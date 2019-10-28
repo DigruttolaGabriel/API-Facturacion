@@ -10,11 +10,11 @@ public class CargoPago {
     @Column(name = "ID_cargo_pago")
     private long idCargoPago;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_cargo", nullable = false)
     private Cargo cargo;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_pago", nullable = false)
     private Pago pago;
 
