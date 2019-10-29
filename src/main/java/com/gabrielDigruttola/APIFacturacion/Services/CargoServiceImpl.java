@@ -48,7 +48,7 @@ public class CargoServiceImpl implements CargoService {
             if (!cargoMapper.getMoneda().equals(Enums.Moneda.ARS))
                 cargoMapper.setMonto(commonService.calcularConversionMoneda(cargoMapper.getMonto(), cargoMapper.getMoneda()));
 
-            Factura factura = facturaService.getFacturaPorMesYAnio(new Date(), cargoMapper.getIdUsuario());
+            Factura factura = facturaService.getFacturaActual(new Date(), cargoMapper.getIdUsuario());
             if (factura == null)
                 factura = new Factura(cargoMapper.getFecha(), usuario.get());
 
