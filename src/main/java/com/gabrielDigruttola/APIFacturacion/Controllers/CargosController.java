@@ -26,38 +26,33 @@ public class CargosController {
     @RequestMapping(value = "/generarCargo", method = RequestMethod.POST)
     public ResponseEntity generarCargo(@RequestBody CargoMapper cargoMapper) {
         JSONObject json = new JSONObject();
+        String resultado = "";
+        HttpStatus httpStatus = HttpStatus.OK;
 
         try {
-            cargoService.procesarCargo(cargoMapper);
+            resultado = cargoService.procesarCargo(cargoMapper);
         } catch (Exception e) {
-            json.put("mensaje", e.getMessage());
-            return new ResponseEntity<>(json, HttpStatus.CONFLICT);
+            resultado = e.getMessage();
+            httpStatus = HttpStatus.CONFLICT;
         }
 
-        json.put("fecha", cargoMapper.getFecha());
-        json.put("monto", cargoMapper.getMonto());
-        json.put("moneda", cargoMapper.getMoneda());
-        json.put("usuario", cargoMapper.getIdUsuario());
-        json.put("evento", cargoMapper.getTipoEvento());
-        json.put("monedaConvertida", Enums.Moneda.ARS.getValue());
-
-        return new ResponseEntity<>(json, HttpStatus.OK);
+        json.put("mensaje", resultado);
+        return new ResponseEntity<>(json, httpStatus);
     }
 
     @RequestMapping(value = "/getCargos", method = RequestMethod.GET)
     public ResponseEntity obtenerCargos(@RequestParam(name = "idUsuario") long idUsuario) {
         JSONObject json = new JSONObject();
         List<Cargo> cargos;
-        double deuda;
+        String resultado = "";
         try {
             cargos = cargoService.getCargosAPagar(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getValue(), idUsuario);
-            deuda = cargoService.getDeudaTotal(cargos);
         } catch (Exception e) {
             json.put("mensaje", e.getMessage());
             return new ResponseEntity<>(json, HttpStatus.CONFLICT);
         }
 
-        json.put("deuda", deuda);
+        json.put("mensaje", resultado);
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
 

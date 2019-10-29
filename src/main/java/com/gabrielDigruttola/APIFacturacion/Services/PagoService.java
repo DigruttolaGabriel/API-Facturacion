@@ -4,5 +4,5 @@ import com.gabrielDigruttola.APIFacturacion.Mappers.PagoMapper;
 
 public interface PagoService {
 
-    void procesarPago(PagoMapper pagoMapper) throws Exception;
+    String procesarPago(PagoMapper pagoMapper) throws Exception;
 }

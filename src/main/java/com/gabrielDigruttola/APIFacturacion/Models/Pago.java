@@ -27,6 +27,12 @@ public class Pago {
         this.cargoPagoList = new ArrayList<>();
     }
 
+    public Pago(double montoPago) {
+        this.montoPago = montoPago;
+        this.fechaPago = new Date();
+        this.cargoPagoList = new ArrayList<>();
+    }
+
     public Pago(long idPago, Date fechaPago, double montoPago, List<CargoPago> cargoPagoList) {
         this.idPago = idPago;
         this.fechaPago = fechaPago;

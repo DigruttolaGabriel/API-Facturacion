@@ -9,7 +9,7 @@ public interface CargoService {
 
     void guardarCargo(Cargo cargo);
 
-    void procesarCargo(CargoMapper cargoMapper) throws Exception;
+    String procesarCargo(CargoMapper cargoMapper) throws Exception;
 
     double getDeudaTotal(List<Cargo> cargos);
 

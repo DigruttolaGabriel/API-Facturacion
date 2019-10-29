@@ -2,12 +2,12 @@ package com.gabrielDigruttola.APIFacturacion.Services;
 
 import com.gabrielDigruttola.APIFacturacion.Enums.Enums;
 import com.gabrielDigruttola.APIFacturacion.Mappers.CargoMapper;
-import com.gabrielDigruttola.APIFacturacion.Mappers.PagoMapper;
 import com.gabrielDigruttola.APIFacturacion.Models.*;
 import com.gabrielDigruttola.APIFacturacion.Repositories.CargoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,9 +27,6 @@ public class CargoServiceImpl implements CargoService {
     private UsuarioService usuarioService;
 
     @Autowired
-    private CargoPagoService cargoPagoService;
-
-    @Autowired
     private CommonService commonService;
 
     @Override
@@ -38,26 +35,28 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public void procesarCargo(CargoMapper cargoMapper) throws Exception {
+    public String procesarCargo(CargoMapper cargoMapper) throws Exception {
         try {
             Optional<Evento> evento = eventoService.getEventoPorId(cargoMapper.getTipoEvento().getValue());
             if (!evento.isPresent())
-                throw new Exception("El evento no existe.");
+                return "El evento no existe.";
 
             Optional<Usuario> usuario = usuarioService.getUsuarioPorId(cargoMapper.getIdUsuario());
             if (!usuario.isPresent())
-                throw new Exception("El usuario no existe.");
+                return "El usuario no existe.";
 
             if (!cargoMapper.getMoneda().equals(Enums.Moneda.ARS))
                 cargoMapper.setMonto(commonService.calcularConversionMoneda(cargoMapper.getMonto(), cargoMapper.getMoneda()));
 
-            Factura factura = facturaService.getFacturaPorMesYAnio(cargoMapper.getFecha());
+            Factura factura = facturaService.getFacturaPorMesYAnio(new Date(), cargoMapper.getIdUsuario());
             if (factura == null)
                 factura = new Factura(cargoMapper.getFecha(), usuario.get());
 
             Cargo cargo = CargoMapper.toPagoModel(cargoMapper);
             cargo.setFacturaCargo(factura);
             guardarCargo(cargo);
+
+            return "Se agregó un nuevo cargo al usuario " + usuario.get().getEmail() + ".";
         } catch (Exception e) {
             throw e;
         }
@@ -89,8 +88,7 @@ public class CargoServiceImpl implements CargoService {
 
     @Override
     public List<Cargo> getCargosAPagar(int estado, long idUsuario) {
-        List<Cargo> cargos = cargoRepository.findCargosPendientesPorUsuario(estado, idUsuario);
-        return cargos;
+        return cargoRepository.findCargosPendientesPorUsuario(estado, idUsuario);
     }
 
 }

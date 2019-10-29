@@ -8,5 +8,5 @@ public interface FacturaService {
 
     void guardarFactura(Factura factura);
 
-    Factura getFacturaPorMesYAnio(Date fecha);
+    Factura getFacturaPorMesYAnio(Date fecha, long idUsuario);
 }

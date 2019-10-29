@@ -21,10 +21,11 @@ public class FacturaServiceImpl implements FacturaService {
     }
 
     @Override
-    public Factura getFacturaPorMesYAnio(Date fecha) {
+    public Factura getFacturaPorMesYAnio(Date fecha, long idUsuario) {
         LocalDate localDate = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         int anio = localDate.getYear();
         int mes = localDate.getMonthValue();
-        return facturaRepository.findFacturaActual(anio, mes);
+
+        return facturaRepository.findFacturaActual(anio, mes, idUsuario);
     }
 }

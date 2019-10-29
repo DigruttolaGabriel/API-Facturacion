@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FacturaRepository extends JpaRepository<Factura, Long> {
 
-    @Query("SELECT f FROM Factura f WHERE EXTRACT(year FROM f.fechaFactura) = :anio AND EXTRACT(month FROM f.fechaFactura) = :mes")
-    Factura findFacturaActual(@Param("anio") int anio, @Param("mes") int mes);
+    @Query("SELECT f FROM Factura f INNER JOIN Usuario u ON f.usuario.idUsuario = u.idUsuario WHERE EXTRACT(year FROM f.fechaFactura) = :anio AND EXTRACT(month FROM f.fechaFactura) = :mes AND u.idUsuario = :idUsuario")
+    Factura findFacturaActual(@Param("anio") int anio, @Param("mes") int mes, @Param("idUsuario") long idUsuario);
 
 }

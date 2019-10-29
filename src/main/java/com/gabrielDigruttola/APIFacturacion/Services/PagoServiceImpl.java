@@ -23,34 +23,42 @@ public class PagoServiceImpl implements PagoService {
     private CommonService commonService;
 
     @Override
-    public void procesarPago(PagoMapper pagoMapper) throws Exception {
-        List<Cargo> cargos = cargoService.getCargosAPagar(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getValue(), pagoMapper.getIdUsuario());
+    public String procesarPago(PagoMapper pagoMapper) throws Exception {
+        try {
+            List<Cargo> cargos = cargoService.getCargosAPagar(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getValue(), pagoMapper.getIdUsuario());
 
-        if (!pagoMapper.getMoneda().equals(Enums.Moneda.ARS))
-            pagoMapper.setMonto(commonService.calcularConversionMoneda(pagoMapper.getMonto(), pagoMapper.getMoneda()));
-        
-        double totalPago = pagoMapper.getMonto();
-        double totalDeuda = cargoService.getDeudaTotal(cargos);
-        if (totalPago <= totalDeuda && totalPago > 0) {
-            while (totalPago > 0) {
-                Cargo cargo = cargos.get(0);
-                double deudaCargo = cargoService.getDeudaCargo(cargo);
+            if (pagoMapper.getMonto() > 0) {
+                if (!pagoMapper.getMoneda().equals(Enums.Moneda.ARS))
+                    pagoMapper.setMonto(commonService.calcularConversionMoneda(pagoMapper.getMonto(), pagoMapper.getMoneda()));
 
-                CargoPago cargoPago = new CargoPago();
-                cargoPago.setCargo(cargo);
-                Pago pago = PagoMapper.toPagoModel(pagoMapper);
-                cargoPago.setPago(pago);
-                cargoPagoService.guardarCargoPago(cargoPago);
+                double totalPago = pagoMapper.getMonto();
+                double totalDeuda = cargoService.getDeudaTotal(cargos);
+                if (totalPago <= totalDeuda) {
+                    Pago pago = PagoMapper.toPagoModel(pagoMapper);
+                    while (totalPago > 0) {
+                        Cargo cargo = cargos.get(0);
+                        double deudaCargo = cargoService.getDeudaCargo(cargo);
 
-                if (deudaCargo <= totalPago) {
-                    cargo.setEstado(Enums.EstadoCargo.PAGADO.getValue());
-                    cargoService.guardarCargo(cargo);
-                    cargos.remove(cargo);
-                }
-                totalPago -= deudaCargo;
-            }
-        } else {
-            throw new Exception("El pago no puede superar la deuda del usuario.");
+                        CargoPago cargoPago = new CargoPago();
+                        cargoPago.setCargo(cargo);
+                        cargoPago.setPago(pago);
+                        cargoPagoService.guardarCargoPago(cargoPago);
+
+                        if (deudaCargo <= totalPago) {
+                            cargo.setEstado(Enums.EstadoCargo.PAGADO.getValue());
+                            cargoService.guardarCargo(cargo);
+                            cargos.remove(cargo);
+                        }
+                        totalPago -= deudaCargo;
+                    }
+                } else
+                    return "El pago no puede superar la deuda del usuario.";
+            } else
+                return "El pago debe ser mayor que 0.";
+
+            return "El pago se procesó exitósamente.";
+        } catch (Exception e) {
+            return e.getMessage();
         }
     }
 }

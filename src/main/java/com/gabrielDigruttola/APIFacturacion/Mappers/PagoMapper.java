@@ -15,8 +15,7 @@ public class PagoMapper {
     private Moneda moneda;
 
     public static Pago toPagoModel(PagoMapper pagoMapper) {
-        Pago pago = new Pago();
-        pago.setMontoPago(pagoMapper.monto);
+        Pago pago = new Pago(pagoMapper.monto);
         return pago;
     }
 
