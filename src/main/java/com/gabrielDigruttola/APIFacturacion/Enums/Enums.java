@@ -12,13 +12,21 @@ public class Enums {
         MERCADOSHOP(7),
         FIDELIDAD(8);
 
-        private int value;
-        private TipoEvento(int value) {
-            this.value = value;
+        private int id;
+        private TipoEvento(int id) {
+            this.id = id;
         }
 
-        public int getValue() {
-            return value;
+        public int getId() {
+            return id;
+        }
+
+        public static TipoEvento fromId(int id) {
+            for (TipoEvento evento : values()) {
+                if (evento.id == id)
+                    return evento;
+            }
+            return null;
         }
     }
 
@@ -26,13 +34,13 @@ public class Enums {
         ARS(1),
         USD(2);
 
-        private int value;
-        private Moneda(int value) {
-            this.value = value;
+        private int id;
+        private Moneda(int id) {
+            this.id = id;
         }
 
-        public int getValue() {
-            return value;
+        public int getId() {
+            return id;
         }
     }
 
@@ -40,13 +48,21 @@ public class Enums {
         PENDIENTE_DE_PAGO(1),
         PAGADO(2);
 
-        private int value;
-        private EstadoCargo(int value) {
-            this.value = value;
+        private int id;
+        private EstadoCargo(int id) {
+            this.id = id;
         }
 
-        public int getValue() {
-            return value;
+        public int getId() {
+            return id;
+        }
+
+        public static EstadoCargo fromId(int id) {
+            for (EstadoCargo estado : values()) {
+                if (estado.id == id)
+                    return estado;
+            }
+            return null;
         }
     }
 }

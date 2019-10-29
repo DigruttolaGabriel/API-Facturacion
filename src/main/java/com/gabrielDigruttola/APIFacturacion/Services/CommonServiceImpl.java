@@ -15,7 +15,7 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public double calcularConversionMoneda(double monto, Enums.Moneda moneda) throws Exception {
-        Optional<Moneda> monedaConversion = monedaService.getMonedaPorId(moneda.getValue());
+        Optional<Moneda> monedaConversion = monedaService.getMonedaPorId(moneda.getId());
         if (monedaConversion.isPresent())
             return monto * monedaConversion.get().getValorMoneda();
         else

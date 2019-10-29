@@ -3,6 +3,7 @@ package com.gabrielDigruttola.APIFacturacion.Mappers;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gabrielDigruttola.APIFacturacion.Enums.Enums.Moneda;
 import com.gabrielDigruttola.APIFacturacion.Models.Pago;
+import com.gabrielDigruttola.APIFacturacion.Responses.PagoResponse;
 
 public class PagoMapper {
     @JsonProperty("user_id")
@@ -13,11 +14,6 @@ public class PagoMapper {
 
     @JsonProperty("currency")
     private Moneda moneda;
-
-    public static Pago toPagoModel(PagoMapper pagoMapper) {
-        Pago pago = new Pago(pagoMapper.monto);
-        return pago;
-    }
 
     public long getIdUsuario() {
         return idUsuario;
@@ -41,5 +37,19 @@ public class PagoMapper {
 
     public void setMoneda(Moneda moneda) {
         this.moneda = moneda;
+    }
+
+    public static Pago toPagoModel(PagoMapper pagoMapper) {
+        return new Pago(pagoMapper.monto);
+    }
+
+    public static PagoResponse toPagoResponse(Pago pago) {
+        PagoResponse pagoResponse = new PagoResponse(
+                pago.getIdPago(),
+                pago.getMontoPago(),
+                pago.getFechaPago()
+        );
+
+        return pagoResponse;
     }
 }

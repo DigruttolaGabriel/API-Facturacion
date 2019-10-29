@@ -37,7 +37,7 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public String procesarCargo(CargoMapper cargoMapper) throws Exception {
         try {
-            Optional<Evento> evento = eventoService.getEventoPorId(cargoMapper.getTipoEvento().getValue());
+            Optional<Evento> evento = eventoService.getEventoPorId(cargoMapper.getTipoEvento().getId());
             if (!evento.isPresent())
                 return "El evento no existe.";
 
@@ -52,7 +52,7 @@ public class CargoServiceImpl implements CargoService {
             if (factura == null)
                 factura = new Factura(cargoMapper.getFecha(), usuario.get());
 
-            Cargo cargo = CargoMapper.toPagoModel(cargoMapper);
+            Cargo cargo = CargoMapper.toCargoModel(cargoMapper);
             cargo.setFacturaCargo(factura);
             guardarCargo(cargo);
 
@@ -89,6 +89,11 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public List<Cargo> getCargosAPagar(int estado, long idUsuario) {
         return cargoRepository.findCargosPendientesPorUsuario(estado, idUsuario);
+    }
+
+    @Override
+    public List<Cargo> getCargosPorUsuario(long idUsuario) {
+        return cargoRepository.findCargosPorUsuario(idUsuario);
     }
 
 }

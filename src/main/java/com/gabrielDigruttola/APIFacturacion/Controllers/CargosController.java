@@ -1,8 +1,8 @@
 package com.gabrielDigruttola.APIFacturacion.Controllers;
 
-import com.gabrielDigruttola.APIFacturacion.Enums.Enums;
 import com.gabrielDigruttola.APIFacturacion.Mappers.CargoMapper;
 import com.gabrielDigruttola.APIFacturacion.Models.Cargo;
+import com.gabrielDigruttola.APIFacturacion.Responses.CargoResponse;
 import com.gabrielDigruttola.APIFacturacion.Services.CargoService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -45,15 +46,20 @@ public class CargosController {
         JSONObject json = new JSONObject();
         List<Cargo> cargos;
         String resultado = "";
+
         try {
-            cargos = cargoService.getCargosAPagar(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getValue(), idUsuario);
+            cargos = cargoService.getCargosPorUsuario(idUsuario);
         } catch (Exception e) {
-            json.put("mensaje", e.getMessage());
+            resultado = e.getMessage();
+            json.put("mensaje", resultado);
             return new ResponseEntity<>(json, HttpStatus.CONFLICT);
         }
 
-        json.put("mensaje", resultado);
-        return new ResponseEntity<>(json, HttpStatus.OK);
-    }
+        List<CargoResponse> response = new ArrayList<>();
+        for (Cargo cargo : cargos) {
+            response.add(CargoMapper.toCargoResponse(cargo));
+        }
 
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

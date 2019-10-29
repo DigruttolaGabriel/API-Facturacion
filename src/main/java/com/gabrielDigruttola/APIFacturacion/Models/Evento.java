@@ -15,7 +15,7 @@ public class Evento {
     @Column(name = "nombre", nullable = false)
     private String nombreEvento;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_categoria_evento", nullable = false)
     private CategoriaDeEvento categoriaDeEvento;
 
@@ -40,7 +40,7 @@ public class Evento {
         this.cargoEventoList = cargoEventoList;
     }
 
-    public long getIdEvento() {
+    public int getIdEvento() {
         return idEvento;
     }
 

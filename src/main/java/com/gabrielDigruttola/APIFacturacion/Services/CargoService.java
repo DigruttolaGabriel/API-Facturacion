@@ -17,4 +17,6 @@ public interface CargoService {
 
     List<Cargo> getCargosAPagar(int estado, long idUsuario);
 
+    List<Cargo> getCargosPorUsuario(long idUsuario);
+
 }

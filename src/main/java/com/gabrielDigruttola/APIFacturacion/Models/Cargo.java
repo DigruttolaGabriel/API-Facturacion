@@ -23,11 +23,11 @@ public class Cargo {
     @Column(name = "estado", nullable = false)
     private int estado;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_evento", nullable = false)
     private Evento eventoCargo;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_factura", nullable = false)
     private Factura facturaCargo;
 

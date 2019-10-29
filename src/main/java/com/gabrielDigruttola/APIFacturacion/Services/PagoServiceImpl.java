@@ -5,6 +5,7 @@ import com.gabrielDigruttola.APIFacturacion.Mappers.PagoMapper;
 import com.gabrielDigruttola.APIFacturacion.Models.Cargo;
 import com.gabrielDigruttola.APIFacturacion.Models.CargoPago;
 import com.gabrielDigruttola.APIFacturacion.Models.Pago;
+import com.gabrielDigruttola.APIFacturacion.Repositories.PagoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,9 @@ import java.util.List;
 
 @Service
 public class PagoServiceImpl implements PagoService {
+
+    @Autowired
+    private PagoRepository pagoRepository;
 
     @Autowired
     private CargoService cargoService;
@@ -25,7 +29,7 @@ public class PagoServiceImpl implements PagoService {
     @Override
     public String procesarPago(PagoMapper pagoMapper) throws Exception {
         try {
-            List<Cargo> cargos = cargoService.getCargosAPagar(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getValue(), pagoMapper.getIdUsuario());
+            List<Cargo> cargos = cargoService.getCargosAPagar(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getId(), pagoMapper.getIdUsuario());
 
             if (pagoMapper.getMonto() > 0) {
                 if (!pagoMapper.getMoneda().equals(Enums.Moneda.ARS))
@@ -45,7 +49,7 @@ public class PagoServiceImpl implements PagoService {
                         cargoPagoService.guardarCargoPago(cargoPago);
 
                         if (deudaCargo <= totalPago) {
-                            cargo.setEstado(Enums.EstadoCargo.PAGADO.getValue());
+                            cargo.setEstado(Enums.EstadoCargo.PAGADO.getId());
                             cargoService.guardarCargo(cargo);
                             cargos.remove(cargo);
                         }
@@ -60,5 +64,10 @@ public class PagoServiceImpl implements PagoService {
         } catch (Exception e) {
             return e.getMessage();
         }
+    }
+
+    @Override
+    public List<Pago> getPagosPorUsuario(long idUsuario) {
+        return pagoRepository.findPagosPorUsuario(idUsuario);
     }
 }
