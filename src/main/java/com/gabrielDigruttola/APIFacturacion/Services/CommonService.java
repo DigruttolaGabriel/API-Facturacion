@@ -5,4 +5,6 @@ import com.gabrielDigruttola.APIFacturacion.Enums.Enums;
 public interface CommonService {
 
     double calcularConversionMoneda(double monto, Enums.Moneda moneda) throws Exception;
+
+    double calcularRedondeoDosDecimales(double monto);
 }

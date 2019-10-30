@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "pago")
+@Table(name = "tb_pago")
 public class Pago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class Pago {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaPago;
 
-    @Column(name = "monto", nullable = false)
+    @Column(name = "monto", nullable = false, scale = 2)
     private double montoPago;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "pago")

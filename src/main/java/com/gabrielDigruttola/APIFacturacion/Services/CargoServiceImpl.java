@@ -50,7 +50,7 @@ public class CargoServiceImpl implements CargoService {
 
             Factura factura = facturaService.getFacturaActual(new Date(), cargoMapper.getIdUsuario());
             if (factura == null)
-                factura = new Factura(cargoMapper.getFecha(), usuario.get());
+                factura = new Factura(new Date(), usuario.get());
 
             Cargo cargo = CargoMapper.toCargoModel(cargoMapper);
             cargo.setFacturaCargo(factura);
@@ -68,7 +68,7 @@ public class CargoServiceImpl implements CargoService {
         for (Cargo cargo : cargos) {
             double totalCargo = cargo.getTotalCargo();
             for (CargoPago cargoPago : cargo.getCargoPagoList()) {
-                totalCargo -= cargoPago.getPago().getMontoPago();
+                totalCargo -= cargoPago.getMontoAsociado();
             }
             totalDeuda += totalCargo;
         }
@@ -80,7 +80,7 @@ public class CargoServiceImpl implements CargoService {
     public double getDeudaCargo(Cargo cargo) {
         double deuda = cargo.getTotalCargo();
         for (CargoPago cargoPago : cargo.getCargoPagoList()) {
-            deuda -= cargoPago.getPago().getMontoPago();
+            deuda -= cargoPago.getMontoAsociado();
         }
 
         return deuda;

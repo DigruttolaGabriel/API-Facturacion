@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "cargo")
+@Table(name = "tb_cargo")
 public class Cargo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class Cargo {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCargo;
 
-    @Column(name = "total", nullable = false)
+    @Column(name = "total", nullable = false, scale = 2)
     private double totalCargo;
 
     @Column(name = "estado", nullable = false)

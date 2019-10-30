@@ -3,12 +3,15 @@ package com.gabrielDigruttola.APIFacturacion.Models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cargo_pago")
+@Table(name = "tb_cargo_pago")
 public class CargoPago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_cargo_pago")
     private long idCargoPago;
+
+    @Column(name = "monto_asociado", nullable = false, scale = 2)
+    private double montoAsociado;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_cargo", nullable = false)
@@ -23,10 +26,11 @@ public class CargoPago {
         this.pago = new Pago();
     }
 
-    public CargoPago(long idCargoPago, Cargo cargo, Pago pago) {
+    public CargoPago(long idCargoPago, Cargo cargo, Pago pago, double montoAsociado) {
         this.idCargoPago = idCargoPago;
         this.cargo = cargo;
         this.pago = pago;
+        this.montoAsociado = montoAsociado;
     }
 
     public long getIdCargoPago() {
@@ -35,6 +39,14 @@ public class CargoPago {
 
     public void setIdCargoPago(long idCargoPago) {
         this.idCargoPago = idCargoPago;
+    }
+
+    public double getMontoAsociado() {
+        return montoAsociado;
+    }
+
+    public void setMontoAsociado(double montoAsociado) {
+        this.montoAsociado = montoAsociado;
     }
 
     public Cargo getCargo() {

@@ -4,6 +4,7 @@ import com.gabrielDigruttola.APIFacturacion.Mappers.CargoMapper;
 import com.gabrielDigruttola.APIFacturacion.Models.Cargo;
 import com.gabrielDigruttola.APIFacturacion.Responses.CargoResponse;
 import com.gabrielDigruttola.APIFacturacion.Services.CargoService;
+import com.gabrielDigruttola.APIFacturacion.Services.CommonService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,9 @@ public class CargosController {
     @Autowired
     private CargoService cargoService;
 
+    @Autowired
+    private CommonService commonService;
+
     @RequestMapping(value = "/generarCargo", method = RequestMethod.POST)
     public ResponseEntity generarCargo(@RequestBody CargoMapper cargoMapper) {
         JSONObject json = new JSONObject();
@@ -31,6 +35,7 @@ public class CargosController {
         HttpStatus httpStatus = HttpStatus.OK;
 
         try {
+            cargoMapper.setMonto(commonService.calcularRedondeoDosDecimales(cargoMapper.getMonto()));
             resultado = cargoService.procesarCargo(cargoMapper);
         } catch (Exception e) {
             resultado = e.getMessage();

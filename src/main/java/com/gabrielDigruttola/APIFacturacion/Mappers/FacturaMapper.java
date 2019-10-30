@@ -1,6 +1,5 @@
 package com.gabrielDigruttola.APIFacturacion.Mappers;
 
-import com.gabrielDigruttola.APIFacturacion.Enums.Enums;
 import com.gabrielDigruttola.APIFacturacion.Models.Cargo;
 import com.gabrielDigruttola.APIFacturacion.Models.CargoPago;
 import com.gabrielDigruttola.APIFacturacion.Models.Factura;
@@ -22,34 +21,29 @@ public class FacturaMapper {
     }
 
     private static double calcularTotalFactura(List<Cargo> cargos) {
-        double total = 0;
+        double totalFactura = 0;
         for (Cargo cargo : cargos) {
-            total += cargo.getTotalCargo();
+            totalFactura += cargo.getTotalCargo();
         }
 
-        return total;
+        return totalFactura;
+    }
+
+    private static double calcularTotalPagado(List<Cargo> cargos) {
+        double totalPagado = 0;
+        for (Cargo cargo : cargos) {
+            for (CargoPago cargoPago : cargo.getCargoPagoList()) {
+                totalPagado += cargoPago.getMontoAsociado();
+            }
+        }
+
+        return totalPagado;
     }
 
     private static double calcularDeudaFactura(List<Cargo> cargos) {
         double totalFactura = calcularTotalFactura(cargos);
-        double totalDeuda = 0;
-        for (Cargo cargo : cargos) {
-            totalDeuda += getDeudaCargo(cargo);
-        }
+        double totalDeuda = calcularTotalPagado(cargos);
 
         return totalFactura - totalDeuda;
-    }
-
-    private static double getDeudaCargo(Cargo cargo) {
-        if (cargo.getEstado() == Enums.EstadoCargo.PAGADO.getId())
-            return cargo.getTotalCargo();
-        else {
-            double deuda = cargo.getTotalCargo();
-            for (CargoPago cargoPago : cargo.getCargoPagoList()) {
-                deuda -= cargoPago.getPago().getMontoPago();
-            }
-
-            return deuda;
-        }
     }
 }

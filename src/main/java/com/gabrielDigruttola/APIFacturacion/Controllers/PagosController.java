@@ -3,6 +3,7 @@ package com.gabrielDigruttola.APIFacturacion.Controllers;
 import com.gabrielDigruttola.APIFacturacion.Mappers.PagoMapper;
 import com.gabrielDigruttola.APIFacturacion.Models.Pago;
 import com.gabrielDigruttola.APIFacturacion.Responses.PagoResponse;
+import com.gabrielDigruttola.APIFacturacion.Services.CommonService;
 import com.gabrielDigruttola.APIFacturacion.Services.PagoService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class PagosController {
     @Autowired
     private PagoService pagoService;
 
+    @Autowired
+    private CommonService commonService;
+
     @RequestMapping(value = "/generarPago", method = RequestMethod.POST)
     public ResponseEntity generarPago(@RequestBody PagoMapper pagoMapper) {
         JSONObject json = new JSONObject();
@@ -31,6 +35,7 @@ public class PagosController {
         HttpStatus httpStatus = HttpStatus.OK;
 
         try {
+            pagoMapper.setMonto(commonService.calcularRedondeoDosDecimales(pagoMapper.getMonto()));
             resultado = pagoService.procesarPago(pagoMapper);
         } catch (Exception e) {
             resultado = e.getMessage();

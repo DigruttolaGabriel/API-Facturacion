@@ -3,7 +3,7 @@ package com.gabrielDigruttola.APIFacturacion.Models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "moneda")
+@Table(name = "tb_moneda")
 public class Moneda {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +13,7 @@ public class Moneda {
     @Column(name = "nombre", nullable = false)
     private String nombreMoneda;
 
-    @Column(name = "valor", nullable = false)
+    @Column(name = "valor", nullable = false, scale = 2)
     private double valorMoneda;
 
     public Moneda() {

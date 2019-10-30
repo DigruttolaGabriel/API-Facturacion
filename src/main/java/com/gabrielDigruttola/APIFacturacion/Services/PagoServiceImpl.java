@@ -44,15 +44,18 @@ public class PagoServiceImpl implements PagoService {
                         double deudaCargo = cargoService.getDeudaCargo(cargo);
 
                         CargoPago cargoPago = new CargoPago();
-                        cargoPago.setCargo(cargo);
-                        cargoPago.setPago(pago);
-                        cargoPagoService.guardarCargoPago(cargoPago);
 
                         if (deudaCargo <= totalPago) {
+                            cargoPago.setMontoAsociado(deudaCargo);
                             cargo.setEstado(Enums.EstadoCargo.PAGADO.getId());
                             cargoService.guardarCargo(cargo);
                             cargos.remove(cargo);
-                        }
+                        } else
+                            cargoPago.setMontoAsociado(totalPago);
+
+                        cargoPago.setCargo(cargo);
+                        cargoPago.setPago(pago);
+                        cargoPagoService.guardarCargoPago(cargoPago);
                         totalPago -= deudaCargo;
                     }
                 } else
