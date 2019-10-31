@@ -27,6 +27,13 @@ public class Evento {
         this.categoriaDeEvento = new CategoriaDeEvento();
     }
 
+    public Evento(int idEvento, String nombreEvento) {
+        this.idEvento = idEvento;
+        this.nombreEvento = nombreEvento;
+        this.cargoEventoList = new ArrayList<>();
+        this.categoriaDeEvento = new CategoriaDeEvento();
+    }
+
     public Evento(int idEvento) {
         this.idEvento = idEvento;
         this.cargoEventoList = new ArrayList<>();

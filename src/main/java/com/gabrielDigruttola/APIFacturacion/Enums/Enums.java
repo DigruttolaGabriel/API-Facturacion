@@ -31,8 +31,10 @@ public class Enums {
     }
 
     public enum Moneda {
+        INDEFINIDO(0),
         ARS(1),
         USD(2);
+
 
         private int id;
         private Moneda(int id) {

@@ -5,7 +5,8 @@ import com.gabrielDigruttola.APIFacturacion.Models.Moneda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 @Service
@@ -25,8 +26,9 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public double calcularRedondeoDosDecimales(double monto) {
-        DecimalFormat format = new DecimalFormat("#.##");
+        BigDecimal decimal = new BigDecimal(monto);
+        decimal = decimal.setScale(2, RoundingMode.HALF_UP);
 
-        return Double.valueOf(format.format(monto));
+        return decimal.doubleValue();
     }
 }
