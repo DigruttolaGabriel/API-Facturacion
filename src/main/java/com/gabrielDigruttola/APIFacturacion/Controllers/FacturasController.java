@@ -1,6 +1,7 @@
 package com.gabrielDigruttola.APIFacturacion.Controllers;
 
 import com.gabrielDigruttola.APIFacturacion.Mappers.FacturaMapper;
+import com.gabrielDigruttola.APIFacturacion.Mappers.UsuarioMapper;
 import com.gabrielDigruttola.APIFacturacion.Models.Factura;
 import com.gabrielDigruttola.APIFacturacion.Models.Usuario;
 import com.gabrielDigruttola.APIFacturacion.Responses.FacturaResponse;
@@ -41,7 +42,7 @@ public class FacturasController {
         List<FacturaResponse> response = new ArrayList<>();
         for (Factura factura : facturas) {
             FacturaResponse facturaResponse = FacturaMapper.toFacturaResponse(factura);
-            //facturaResponse.setUsuarioResponse();
+            facturaResponse.setUsuarioResponse(UsuarioMapper.toUsuarioResponse(factura.getUsuario()));
             response.add(facturaResponse);
         }
 
@@ -64,7 +65,9 @@ public class FacturasController {
 
         List<FacturaResponse> response = new ArrayList<>();
         for (Factura factura : facturas) {
-            response.add(FacturaMapper.toFacturaResponse(factura));
+            FacturaResponse facturaResponse = FacturaMapper.toFacturaResponse(factura);
+            facturaResponse.setUsuarioResponse(UsuarioMapper.toUsuarioResponse(factura.getUsuario()));
+            response.add(facturaResponse);
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);

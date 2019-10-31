@@ -10,6 +10,19 @@ import java.util.List;
 
 public class UsuarioMapper {
 
+    public static UsuarioResponse toUsuarioResponse(Usuario usuario) {
+        UsuarioResponse usuarioResponse = new UsuarioResponse(
+                usuario.getIdUsuario(),
+                usuario.getNombre(),
+                usuario.getApellido(),
+                usuario.getEmail(),
+                0,
+                0
+        );
+
+        return usuarioResponse;
+    }
+
     public static UsuarioResponse toUsuarioResponse(Usuario usuario, double totalFacturado, double totalDeuda) {
         UsuarioResponse usuarioResponse = new UsuarioResponse(
                 usuario.getIdUsuario(),
@@ -21,28 +34,5 @@ public class UsuarioMapper {
         );
 
         return usuarioResponse;
-    }
-
-    private static double calcularTotalFacturado(List<Factura> facturas) {
-        double totalFacturado = 0;
-        for (Factura factura : facturas) {
-            for (Cargo cargo : factura.getCargoFacturaList()) {
-                totalFacturado += cargo.getTotalCargo();
-            }
-        }
-
-        return totalFacturado;
-    }
-
-    private static double calcularTotalDeuda(List<Factura> facturas) {
-        double totalDeuda = 0;
-        for (Factura factura : facturas) {
-            for (Cargo cargo : factura.getCargoFacturaList()) {
-                for (CargoPago cargoPago : cargo.getCargoPagoList()) {
-
-                }
-            }
-        }
-        return totalDeuda;
     }
 }
