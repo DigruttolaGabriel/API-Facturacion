@@ -15,7 +15,7 @@ public interface CargoService {
 
     double getDeudaCargo(Cargo cargo);
 
-    List<Cargo> getCargosAPagar(int estado, long idUsuario);
+    List<Cargo> getCargosPorEstadoYUsuario(int estado, long idUsuario);
 
     List<Cargo> getCargosPorUsuario(long idUsuario);
 

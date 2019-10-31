@@ -87,8 +87,8 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public List<Cargo> getCargosAPagar(int estado, long idUsuario) {
-        return cargoRepository.findCargosPendientesPorUsuario(estado, idUsuario);
+    public List<Cargo> getCargosPorEstadoYUsuario(int estado, long idUsuario) {
+        return cargoRepository.findCargosPorEstadoYPorUsuario(estado, idUsuario);
     }
 
     @Override

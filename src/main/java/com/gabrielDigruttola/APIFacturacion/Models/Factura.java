@@ -17,7 +17,7 @@ public class Factura {
     @Temporal(TemporalType.DATE)
     private Date fechaFactura;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_usuario", nullable = false)
     private Usuario usuario;
 

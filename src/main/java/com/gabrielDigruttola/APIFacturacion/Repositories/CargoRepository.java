@@ -16,7 +16,7 @@ public interface CargoRepository extends JpaRepository<Cargo, Long> {
             "WHERE c.estado = :estado " +
             "AND f.usuario.idUsuario = :idUsuario " +
             "ORDER BY c.idCargo ASC")
-    List<Cargo> findCargosPendientesPorUsuario(@Param("estado") int estado, @Param("idUsuario") long idUsuario);
+    List<Cargo> findCargosPorEstadoYPorUsuario(@Param("estado") int estado, @Param("idUsuario") long idUsuario);
 
     @Query("SELECT c from Cargo c " +
             "INNER JOIN Factura f ON c.facturaCargo.idFactura = f.idFactura " +

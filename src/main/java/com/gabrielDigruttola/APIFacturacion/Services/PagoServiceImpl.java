@@ -29,7 +29,7 @@ public class PagoServiceImpl implements PagoService {
     @Override
     public String procesarPago(PagoMapper pagoMapper) throws Exception {
         try {
-            List<Cargo> cargos = cargoService.getCargosAPagar(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getId(), pagoMapper.getIdUsuario());
+            List<Cargo> cargos = cargoService.getCargosPorEstadoYUsuario(Enums.EstadoCargo.PENDIENTE_DE_PAGO.getId(), pagoMapper.getIdUsuario());
 
             if (pagoMapper.getMonto() > 0) {
                 if (!pagoMapper.getMoneda().equals(Enums.Moneda.ARS))
