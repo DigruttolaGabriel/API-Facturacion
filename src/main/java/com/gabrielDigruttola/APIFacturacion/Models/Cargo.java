@@ -31,7 +31,7 @@ public class Cargo {
     @JoinColumn(name = "ID_factura", nullable = false)
     private Factura facturaCargo;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "cargo")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "cargo")
     private List<CargoPago> cargoPagoList;
 
     public Cargo() {

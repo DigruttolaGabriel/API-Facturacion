@@ -17,10 +17,10 @@ public class CargoPagoServiceTests {
     @Test
     public void getTotalPagadoPorUsuario_Test() {
 
-        double totalPagado = cargoPagoService.getSumaTotalPagadoPorUsuario(2);
-        double totalPagadoPromise = 2700F;
+        double resultado = cargoPagoService.getSumaTotalPagadoPorUsuario(1);
+        double promise = 1000d;
 
-        Assert.assertEquals(totalPagado, totalPagadoPromise, 0);
+        Assert.assertEquals(promise, resultado, 0);
     }
 
 }

@@ -23,7 +23,7 @@ public class EventoServiceTests {
         Enums.TipoEvento tipoEvento = Enums.TipoEvento.MERCADOPAGO;
 
         Optional<Evento> resultado = eventoService.getEventoPorId(tipoEvento.getId());
-        Evento promise = new Evento(6, "MercagoPago");
+        Evento promise = new Evento(6, "MercadoPago");
 
         Assert.assertEquals(promise.getNombreEvento(), resultado.get().getNombreEvento());
     }

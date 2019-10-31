@@ -40,6 +40,6 @@ public class UsuarioServiceTests {
         double resultado = usuarioService.getDeudaUsuario(totalFacturado, totalPagado);
         double promise = 500d;
 
-        Assert.assertEquals(promise, resultado);
+        Assert.assertEquals(promise, resultado, 0);
     }
 }

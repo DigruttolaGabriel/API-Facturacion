@@ -130,7 +130,7 @@ public class CargoServiceTests {
     @Test
     public void getSumaTotalFacturadoDeUsuario_Test() throws Exception {
         double resultado = cargoService.getSumaTotalFacturadoPorUsuario(1);
-        double promise = 4200d;
+        double promise = 3700d;
 
         Assert.assertEquals(resultado, promise, 0);
     }
