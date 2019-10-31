@@ -22,4 +22,9 @@ public class UsuarioServiceImpl implements UsuarioService{
     public Optional<Usuario> getUsuarioPorId(long idUsuario) {
         return usuarioRepository.findById(idUsuario);
     }
+
+    @Override
+    public double getDeudaUsuario(double totalFacturado, double totalPagado) {
+        return totalFacturado - totalPagado;
+    }
 }

@@ -11,12 +11,23 @@ import java.util.List;
 @Repository
 public interface CargoRepository extends JpaRepository<Cargo, Long> {
 
-    List<Cargo> findByEstadoOrderByIdCargoAsc(int estado);
-
-    @Query("SELECT c from Cargo c INNER JOIN Factura f ON c.facturaCargo.idFactura = f.idFactura WHERE c.estado = :estado AND f.usuario.idUsuario = :idUsuario ORDER BY c.idCargo ASC")
+    @Query("SELECT c from Cargo c " +
+            "INNER JOIN Factura f ON c.facturaCargo.idFactura = f.idFactura " +
+            "WHERE c.estado = :estado " +
+            "AND f.usuario.idUsuario = :idUsuario " +
+            "ORDER BY c.idCargo ASC")
     List<Cargo> findCargosPendientesPorUsuario(@Param("estado") int estado, @Param("idUsuario") long idUsuario);
 
-    @Query("SELECT c from Cargo c INNER JOIN Factura f ON c.facturaCargo.idFactura = f.idFactura WHERE f.usuario.idUsuario = :idUsuario ORDER BY c.idCargo ASC")
+    @Query("SELECT c from Cargo c " +
+            "INNER JOIN Factura f ON c.facturaCargo.idFactura = f.idFactura " +
+            "WHERE f.usuario.idUsuario = :idUsuario " +
+            "ORDER BY c.idCargo ASC")
     List<Cargo> findCargosPorUsuario(@Param("idUsuario") long idUsuario);
+
+    @Query("SELECT SUM(c.totalCargo) FROM Cargo c " +
+            "INNER JOIN Factura f ON c.facturaCargo.idFactura = f.idFactura " +
+            "INNER JOIN Usuario u ON f.usuario.idUsuario = u.idUsuario " +
+            "WHERE u.idUsuario = :idUsuario")
+    double sumTotalFacturadoPorUsuario(@Param("idUsuario") long idUsuario);
 
 }

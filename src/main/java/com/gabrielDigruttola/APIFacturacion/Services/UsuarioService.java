@@ -9,4 +9,6 @@ public interface UsuarioService {
     void guardarUsuario(Usuario usuario);
 
     Optional<Usuario> getUsuarioPorId(long idUsuario);
+
+    double getDeudaUsuario(double totalFacturado, double totalPagado);
 }

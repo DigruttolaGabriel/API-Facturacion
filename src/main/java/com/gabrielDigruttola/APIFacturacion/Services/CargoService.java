@@ -19,4 +19,6 @@ public interface CargoService {
 
     List<Cargo> getCargosPorUsuario(long idUsuario);
 
+    double getSumaTotalFacturadoPorUsuario(long idUsuario);
+
 }

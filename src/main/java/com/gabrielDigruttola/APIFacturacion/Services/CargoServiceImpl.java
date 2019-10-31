@@ -96,4 +96,9 @@ public class CargoServiceImpl implements CargoService {
         return cargoRepository.findCargosPorUsuario(idUsuario);
     }
 
+    @Override
+    public double getSumaTotalFacturadoPorUsuario(long idUsuario) {
+        return cargoRepository.sumTotalFacturadoPorUsuario(idUsuario);
+    }
+
 }

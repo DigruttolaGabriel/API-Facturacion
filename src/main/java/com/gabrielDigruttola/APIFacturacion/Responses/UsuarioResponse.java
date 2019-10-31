@@ -12,7 +12,7 @@ public class UsuarioResponse {
     public UsuarioResponse() {
     }
 
-    public UsuarioResponse(int idUsuario, String nombreUsuario, String apellidoUsuario, String email, double totalFacturado, double totalDeuda) {
+    public UsuarioResponse(long idUsuario, String nombreUsuario, String apellidoUsuario, String email, double totalFacturado, double totalDeuda) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
         this.apellidoUsuario = apellidoUsuario;

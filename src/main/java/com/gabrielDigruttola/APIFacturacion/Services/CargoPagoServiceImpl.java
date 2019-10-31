@@ -15,4 +15,9 @@ public class CargoPagoServiceImpl implements CargoPagoService {
     public void guardarCargoPago(CargoPago cargoPago) {
         cargoPagoRepository.save(cargoPago);
     }
+
+    @Override
+    public double getSumaTotalPagadoPorUsuario(long idUsuario) {
+        return cargoPagoRepository.sumTotalPagadoPorUsuario(idUsuario);
+    }
 }
