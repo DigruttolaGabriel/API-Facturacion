@@ -29,12 +29,11 @@ public class FacturasController {
     public ResponseEntity obtenerFacturasPorFecha(@RequestParam(name = "mes") int mes, @RequestParam(name = "anio") int anio) {
         JSONObject json = new JSONObject();
         List<Factura> facturas;
-        String resultado = "";
 
         try {
             facturas = facturaService.getFacturasPorMesYAnio(mes, anio);
         } catch (Exception e) {
-            resultado = e.getMessage();
+            String resultado = e.getMessage();
             json.put("mensaje", resultado);
             return new ResponseEntity<>(json, HttpStatus.CONFLICT);
         }
@@ -53,12 +52,11 @@ public class FacturasController {
     public ResponseEntity obtenerFacturasPorUsuario(@RequestParam(name = "idUsuario") long idUsuario) {
         JSONObject json = new JSONObject();
         List<Factura> facturas;
-        String resultado = "";
 
         try {
             facturas = facturaService.getFacturasPorUsuario(new Usuario(idUsuario));
         } catch (Exception e) {
-            resultado = e.getMessage();
+            String resultado = e.getMessage();
             json.put("mensaje", resultado);
             return new ResponseEntity<>(json, HttpStatus.CONFLICT);
         }

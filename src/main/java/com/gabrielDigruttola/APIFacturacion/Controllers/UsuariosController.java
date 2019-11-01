@@ -34,7 +34,6 @@ public class UsuariosController {
     public ResponseEntity obtenerEstadoUsuarioPorId(@RequestParam(name = "idUsuario") long idUsuario) {
         JSONObject json = new JSONObject();
         UsuarioResponse usuarioResponse;
-        String resultado = "";
 
         try {
             Optional<Usuario> usuario = usuarioService.getUsuarioPorId(idUsuario);
@@ -47,7 +46,7 @@ public class UsuariosController {
             } else
                 throw new Exception("El usuario no existe.");
         } catch (Exception e) {
-            resultado = e.getMessage();
+            String resultado = e.getMessage();
             json.put("mensaje", resultado);
             return new ResponseEntity<>(json, HttpStatus.CONFLICT);
         }

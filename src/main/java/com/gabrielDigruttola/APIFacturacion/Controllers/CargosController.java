@@ -50,12 +50,11 @@ public class CargosController {
     public ResponseEntity obtenerCargos(@RequestParam(name = "idUsuario") long idUsuario) {
         JSONObject json = new JSONObject();
         List<Cargo> cargos;
-        String resultado = "";
 
         try {
             cargos = cargoService.getCargosPorUsuario(idUsuario);
         } catch (Exception e) {
-            resultado = e.getMessage();
+            String resultado = e.getMessage();
             json.put("mensaje", resultado);
             return new ResponseEntity<>(json, HttpStatus.CONFLICT);
         }

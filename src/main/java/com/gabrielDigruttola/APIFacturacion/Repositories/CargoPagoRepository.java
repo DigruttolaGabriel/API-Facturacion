@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CargoPagoRepository extends JpaRepository<CargoPago, Long> {
 
-    @Query("SELECT SUM(cp.montoAsociado) FROM CargoPago cp " +
+    @Query("SELECT COALESCE(SUM(cp.montoAsociado), 0) FROM CargoPago cp " +
             "INNER JOIN Cargo c ON cp.cargo.idCargo = c.idCargo " +
             "INNER JOIN Factura f ON c.facturaCargo.idFactura = f.idFactura " +
             "INNER JOIN Usuario u ON f.usuario.idUsuario = u.idUsuario " +

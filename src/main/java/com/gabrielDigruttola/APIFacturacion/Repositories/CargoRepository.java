@@ -24,7 +24,7 @@ public interface CargoRepository extends JpaRepository<Cargo, Long> {
             "ORDER BY c.idCargo ASC")
     List<Cargo> findCargosPorUsuario(@Param("idUsuario") long idUsuario);
 
-    @Query("SELECT SUM(c.totalCargo) FROM Cargo c " +
+    @Query("SELECT COALESCE(SUM(c.totalCargo), 0) FROM Cargo c " +
             "INNER JOIN Factura f ON c.facturaCargo.idFactura = f.idFactura " +
             "INNER JOIN Usuario u ON f.usuario.idUsuario = u.idUsuario " +
             "WHERE u.idUsuario = :idUsuario")

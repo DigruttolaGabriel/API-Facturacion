@@ -45,6 +45,9 @@ public class CargoServiceImpl implements CargoService {
             if (!usuario.isPresent())
                 return "El usuario no existe.";
 
+            if (cargoMapper.getFecha().before(usuario.get().getFechaAlta()) == true)
+                return "La fecha del cargo tiene que ser mayor a la fecha de registro del usuario.";
+
             if (!cargoMapper.getMoneda().equals(Enums.Moneda.ARS))
                 cargoMapper.setMonto(commonService.calcularConversionMoneda(cargoMapper.getMonto(), cargoMapper.getMoneda()));
 

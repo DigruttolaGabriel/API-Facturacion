@@ -50,12 +50,11 @@ public class PagosController {
     public ResponseEntity obtenerPagos(@RequestParam(name = "idUsuario") long idUsuario) {
         JSONObject json = new JSONObject();
         List<Pago> pagos;
-        String resultado = "";
 
         try {
             pagos = pagoService.getPagosPorUsuario(idUsuario);
         } catch (Exception e) {
-            resultado = e.getMessage();
+            String resultado = e.getMessage();
             json.put("mensaje", resultado);
             return new ResponseEntity<>(json, HttpStatus.CONFLICT);
         }
